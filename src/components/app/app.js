@@ -4,14 +4,21 @@ import AppHeader from '../app-header';
 import WithRestoService from '../hoc';
 
 import Background from './food-bg.jpg';
+import { Switch,Route } from 'react-router-dom';
 
 const App = ({RestoService}) => {
-    console.log(RestoService.getMenuItems())
+    RestoService.getMenuItems()
+        .then(menu => console.log(menu))
+        .catch(error => console.log("Error"));
+    
     return (
         <div style={{background: `url(${Background}) center center/cover no-repeat`}} className="app">
-            <AppHeader total={50}/>
-            <MainPage/>
-            <CartPage/>
+            <AppHeader total={50} />
+            <Switch>
+                <Route path='/' exact component={MainPage} />
+                <Route path='/cart' component={CartPage} />
+                <Route exact component={MainPage} />
+            </Switch>
         </div>
     )
 }
